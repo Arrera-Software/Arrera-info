@@ -4,10 +4,11 @@ from ModuleInternet import TestInternet
 import requests
 import geocoder
 from time import*
+from PIL import Image, ImageTk
 
 #Constante
-Color = "#3c0f14"
-TextColor = "white"
+Color = "white"
+TextColor = "black"
 #Var api 
 keyMeteo="ecffd157b2cc9eacbd0d35a45c3dc047"
 urlMeteo="https://api.openweathermap.org/data/2.5/weather?"
@@ -108,6 +109,35 @@ def Actu():
     titre4Part1 = titreFull4[:len(titreFull4)//2]
     titre4Part2 = titreFull4[len(titreFull4)//2:]
     return url1,titre1Part1,titre1Part2,url2,titre2Part1,titre2Part2,url3,titre3Part1,titre3Part2,url4,titre4Part1,titre4Part2
+
+def Apropop():
+    #Variable
+    nameApp = "Arrera Info"
+    versionApp = "I2024-"
+    imagePath = "image/icon.png"
+    copyrightApp = "Copyright Arrera Software by Baptiste P 2023-2024"
+    tailleIMG = (100,100)
+    #Creation de la fenetre
+    about = Toplevel()
+    about.title("A propos :"+nameApp)
+    about.maxsize(400,300)
+    about.minsize(400,300)
+    #Traitement Image
+    imageOrigine = Image.open(imagePath)    
+    imageRedim = imageOrigine.resize(tailleIMG)
+    icon = ImageTk.PhotoImage(imageRedim)
+    #Label
+    labelIcon = Label(about,image=icon)
+    labelName = Label(about,text="\n"+nameApp+"\n",font=("arial","12"))
+    labelVersion = Label(about,text=versionApp+"\n",font=("arial","11"))
+    labelCopyright = Label(about,text=copyrightApp,font=("arial","9"))
+    #affichage
+    labelIcon.pack()
+    labelName.pack()
+    labelVersion.pack()
+    labelCopyright.pack()
+    about.mainloop()
+
 #Fenetre tkinter
 screen = Tk()
 screen.title("Arrera Info")
@@ -115,6 +145,10 @@ screen.minsize(600,750)
 screen.maxsize(600,750)
 screen.config(bg=Color)
 screen.iconphoto(False,PhotoImage(file="image/icon.png"))
+#Menu
+menu = Menu(screen)
+menu.add_command(label="A propos",command=Apropop)
+screen.configure(menu=menu)
 #Var image
 iconParametre = PhotoImage(file="image/iconParametre.png")
 iconActulisation = PhotoImage(file="image/iconActualisation.png")
@@ -133,10 +167,10 @@ labelTemperatureDomicile = Label(cadreMeteoDomicile,text=textTemperature,bg=Colo
 labelTempDomicile = Label(cadreMeteoDomicile)
 labelHumiditerDomicile = Label(cadreMeteoDomicile,text=textHumiditer,bg=Color,fg=TextColor,font=("arial","15"))
 #Cadre central
-boutonActu1 = Button(cadreCentral,bg=Color,fg=TextColor,font=("arial","10"))
-boutonActu2 = Button(cadreCentral,bg=Color,fg=TextColor,font=("arial","10"))
-boutonActu3 = Button(cadreCentral,bg=Color,fg=TextColor,font=("arial","10"))
-boutonActu4 = Button(cadreCentral,bg=Color,fg=TextColor,font=("arial","10"))
+boutonActu1 = Button(cadreCentral,bg=Color,fg=TextColor,font=("arial","13"))
+boutonActu2 = Button(cadreCentral,bg=Color,fg=TextColor,font=("arial","13"))
+boutonActu3 = Button(cadreCentral,bg=Color,fg=TextColor,font=("arial","13"))
+boutonActu4 = Button(cadreCentral,bg=Color,fg=TextColor,font=("arial","13"))
 #fonction widge
 def Widget():
     etatInternet = TestInternet()
