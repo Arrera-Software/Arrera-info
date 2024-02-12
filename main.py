@@ -113,7 +113,7 @@ def Actu():
 def Apropop():
     #Variable
     nameApp = "Arrera Info"
-    versionApp = "I2024-"
+    versionApp = "I2024-1.05"
     imagePath = "image/icon.png"
     copyrightApp = "Copyright Arrera Software by Baptiste P 2023-2024"
     tailleIMG = (100,100)
