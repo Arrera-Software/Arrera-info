@@ -38,8 +38,7 @@ class PArreraInfo :
         iconActulisation = PhotoImage(file="image/iconActualisation.png",master=self.__boutonActualisation)
         self.__boutonActualisation.image_names=iconActulisation
         self.__boutonActualisation.configure(image=iconActulisation)
-
-        self.__boutonPara = Button(self.__screen,bg=self.__color)
+        self.__boutonPara = Button(self.__screen,bg=self.__color,command=self.setting)
         iconParametre = PhotoImage(file="image/iconParametre.png",master=self.__boutonPara)
         self.__boutonPara.image_names = iconParametre
         self.__boutonPara.configure(image=iconParametre)
@@ -47,6 +46,7 @@ class PArreraInfo :
         self.__cadreMeteoLoc = Frame(self.__screen,bg=self.__color,width=250,height=240)
         self.__cadreMeteoDomicile = Frame(self.__screen,bg=self.__color,width=250,height=240)
         self.__cadreCentral = Frame(self.__screen,bg=self.__color,width=550,height=315)
+        self.__cadrePara = Frame(self.__screen,bg="blue",height=750,width=600)
         #MeteoLoc
         self.__labelInfoLoc = Label(self.__cadreMeteoLoc,text="A votre localisation",bg=self.__color,fg=self.__textColor,font=("arial","15"))
         self.__labelTemperatureLoc = Label(self.__cadreMeteoLoc,text=self.__textTemperature,bg=self.__color,fg=self.__textColor,font=("arial","15"))
@@ -62,14 +62,16 @@ class PArreraInfo :
         self.__boutonActu2 = Button(self.__cadreCentral,bg=self.__color,fg=self.__textColor,font=("arial","13"))
         self.__boutonActu3 = Button(self.__cadreCentral,bg=self.__color,fg=self.__textColor,font=("arial","13"))
         self.__boutonActu4 = Button(self.__cadreCentral,bg=self.__color,fg=self.__textColor,font=("arial","13"))
-
         self.__labelInternet = Label(self.__screen,text="Internet n'est pas\nDisponible",bg=self.__color,fg=self.__textColor,font=("arial","25"))
+        #Parametre
+        self.__entryVille = Entry(self.__cadrePara,font=("arial","25"))
+        self.__validerPara = Button(self.__cadrePara,text="Valider",font=("arial","15"),bg="green",fg="white")
+        self.__quitterPara = Button(self.__cadrePara,text="Retour",font=("arial","15"),bg="red",fg="white",command=self.disablePara)
         
         
 
     def show(self):
         #affichage
-        #
         self.__cadreMeteoLoc.pack(side="left",anchor="n")
         self.__cadreMeteoDomicile.pack(side="right",anchor="n")
         self.__cadreCentral.place(relx=.5, rely=.5, anchor="n")
@@ -93,6 +95,10 @@ class PArreraInfo :
         self.__boutonPara.place(x="0",y="690")
         self.__widget()
         self.__screen.mainloop()
+    
+    def disablePara(self):
+        self.__cadrePara.pack_forget()
+        self.show()
 
     def __widget(self):
         etatInternet = TestInternet()
@@ -215,45 +221,13 @@ class PArreraInfo :
         contenu= fichier.readlines()[0]
         fichier.close()
         return contenu
-
-""" 
-    def __ecriture(self,file,text):#Fonction d'écriture sur un fichier texte
-        doc = open(file,"w")
-        doc.truncate()
-        doc.write(text)
-        doc.close()
-        return text,file
     
-    
-    
-    def Modif(self,file):
-        Var = str(self.__entryVille.get())
-        self.__ecriture(file,Var)
-        self.__screenModif.destroy()
-
-    def __foncModif(self,file):
-        contenu = self.__lecture(file)
-        self.__screenModif = Toplevel()
-        self.__screenModif.maxsize(300,150)
-        self.__screenModif.minsize(300,150)
-        self.__screenModif.wait_visibility(self.__screenModif)
-        self.__screenModif.wm_attributes('-alpha',0.9)
-        self.__screenModif.config(bg=self.__color)
-        LabelContenu = Label(self.__screenModif,text=contenu,font=("arial","20"),bg=self.__color,fg=self.__textColor)
-        self.__entryVille = Entry(self.__screenModif)
-        modif = Button(self.__screenModif,text="Modifier",bg=self.__color,fg=self.__textColor,command=lambda:self.Modif(file))
-        #Affichage
-        self.__entryVille.pack(side="left",anchor="s")
-        LabelContenu.pack()
-        self.__entryVille.pack(side="right",anchor="s")
-    
-    def __parametre(self):
-        screenPara = Toplevel()
-        def Ville():
-            self.__foncModif("config/ville.txt")
-        screenPara.title("Arrera Info")
-        screenPara.minsize(200,100)
-        screenPara.maxsize(200,100)
-        screenPara.config(bg=self.__color)
-        boutonVille = Button(screenPara,text="Localisation domicile",bg=self.__color,fg=self.__textColor,font=("arial","15"),command=Ville).pack(side="left") 
-""" 
+    def setting(self):
+        largeurFrame = self.__cadrePara.winfo_reqheight()
+        self.__entryVille.place(x=((largeurFrame-self.__entryVille.winfo_reqwidth())/2),y=25)
+        self.__validerPara.place(x=((largeurFrame-self.__validerPara.winfo_reqwidth())/2),y=125)
+        self.__quitterPara.place(x=((largeurFrame-self.__quitterPara.winfo_reqwidth())/2),y=225)
+        self.__cadreMeteoLoc.pack_forget()
+        self.__cadreMeteoDomicile.pack_forget()
+        self.__cadreCentral.pack_forget()
+        self.__cadrePara.pack()
