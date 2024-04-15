@@ -33,13 +33,20 @@ class PArreraInfo :
         menu = Menu(self.__screen)
         menu.add_command(label="A propos",command=self.__apropop)
         self.__screen.configure(menu=menu)
-        #Var image
-        iconParametre = PhotoImage(file="image/iconParametre.png")
-        iconActulisation = PhotoImage(file="image/iconActualisation.png")
+        #Bouton Parametre et actualisation
+        self.__boutonActualisation = Button(self.__screen,bg=self.__color,command=self.__widget)
+        iconActulisation = PhotoImage(file="image/iconActualisation.png",master=self.__boutonActualisation)
+        self.__boutonActualisation.image_names=iconActulisation
+        self.__boutonActualisation.configure(image=iconActulisation)
+
+        self.__boutonPara = Button(self.__screen,bg=self.__color)
+        iconParametre = PhotoImage(file="image/iconParametre.png",master=self.__boutonPara)
+        self.__boutonPara.image_names = iconParametre
+        self.__boutonPara.configure(image=iconParametre)
         #Definition des cadre
         self.__cadreMeteoLoc = Frame(self.__screen,bg=self.__color,width=250,height=240)
         self.__cadreMeteoDomicile = Frame(self.__screen,bg=self.__color,width=250,height=240)
-        self.__cadreCentral = Frame(self.__screen,bg=self.__color,width=550,height=355)
+        self.__cadreCentral = Frame(self.__screen,bg=self.__color,width=550,height=315)
         #MeteoLoc
         self.__labelInfoLoc = Label(self.__cadreMeteoLoc,text="A votre localisation",bg=self.__color,fg=self.__textColor,font=("arial","15"))
         self.__labelTemperatureLoc = Label(self.__cadreMeteoLoc,text=self.__textTemperature,bg=self.__color,fg=self.__textColor,font=("arial","15"))
@@ -57,13 +64,12 @@ class PArreraInfo :
         self.__boutonActu4 = Button(self.__cadreCentral,bg=self.__color,fg=self.__textColor,font=("arial","13"))
 
         self.__labelInternet = Label(self.__screen,text="Internet n'est pas\nDisponible",bg=self.__color,fg=self.__textColor,font=("arial","25"))
-        self.__boutonActualisation = Button(self.__screen,bg=self.__color,command=self.__widget)
-        #self.__boutonPara = Button(self.__screen,bg=self.__color,command=self.__parametre)
+        
+        
 
     def show(self):
         #affichage
-        #self.__boutonPara.place(x="0",y="690")
-        self.__boutonActualisation.place(x="545",y="690")
+        #
         self.__cadreMeteoLoc.pack(side="left",anchor="n")
         self.__cadreMeteoDomicile.pack(side="right",anchor="n")
         self.__cadreCentral.place(relx=.5, rely=.5, anchor="n")
@@ -83,6 +89,8 @@ class PArreraInfo :
         self.__boutonActu2.place(x="3",y="65")
         self.__boutonActu3.place(x="3",y="125")
         self.__boutonActu4.place(x="3",y="185")
+        self.__boutonActualisation.place(x="545",y="690")
+        self.__boutonPara.place(x="0",y="690")
         self.__widget()
         self.__screen.mainloop()
 
@@ -201,6 +209,12 @@ class PArreraInfo :
         labelVersion.pack()
         labelCopyright.pack()
         about.mainloop()
+    
+    def __lecture(self,file):#Fonction de lecture d'un fichier texte et stokage dans une varriable
+        fichier = open(file,"r")
+        contenu= fichier.readlines()[0]
+        fichier.close()
+        return contenu
 
 """ 
     def __ecriture(self,file,text):#Fonction d'écriture sur un fichier texte
@@ -210,11 +224,7 @@ class PArreraInfo :
         doc.close()
         return text,file
     
-    def __lecture(self,file):#Fonction de lecture d'un fichier texte et stokage dans une varriable
-        fichier = open(file,"r")
-        contenu= fichier.readlines()[0]
-        fichier.close()
-        return contenu
+    
     
     def Modif(self,file):
         Var = str(self.__entryVille.get())
