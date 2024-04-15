@@ -1,3 +1,5 @@
 from arreraInfo import*
 
-PArreraInfo()
+info = PArreraInfo()
+
+info.show()
