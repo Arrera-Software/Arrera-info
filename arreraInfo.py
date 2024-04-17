@@ -65,11 +65,9 @@ class PArreraInfo :
         self.__labelInternet = Label(self.__screen,text="Internet n'est pas\nDisponible",bg=self.__color,fg=self.__textColor,font=("arial","25"))
         #Parametre
         self.__entryVille = Entry(self.__cadrePara,font=("arial","25"))
-        self.__validerPara = Button(self.__cadrePara,text="Valider",font=("arial","15"),bg="green",fg="white")
-        self.__quitterPara = Button(self.__cadrePara,text="Retour",font=("arial","15"),bg="red",fg="white",command=self.disablePara)
+        self.__validerPara = Button(self.__cadrePara,text="Valider",font=("arial","15"),bg="green",fg="white",width=25)
+        self.__quitterPara = Button(self.__cadrePara,text="Retour",font=("arial","15"),bg="red",fg="white",width=25,command=self.disablePara)
         
-        
-
     def show(self):
         #affichage
         self.__cadreMeteoLoc.pack(side="left",anchor="n")
@@ -224,9 +222,11 @@ class PArreraInfo :
     
     def setting(self):
         largeurFrame = self.__cadrePara.winfo_reqheight()
-        self.__entryVille.place(x=((largeurFrame-self.__entryVille.winfo_reqwidth())/2),y=25)
-        self.__validerPara.place(x=((largeurFrame-self.__validerPara.winfo_reqwidth())/2),y=125)
-        self.__quitterPara.place(x=((largeurFrame-self.__quitterPara.winfo_reqwidth())/2),y=225)
+        labelTitre = Label(self.__cadrePara,text="Entrer votre domicile",font=("arial","15"),bg=self.__color,fg=self.__textColor)
+        labelTitre.place(x=((largeurFrame-(labelTitre.winfo_reqwidth())//2)),y=25)
+        self.__entryVille.place(x=(((largeurFrame-(self.__entryVille.winfo_reqwidth()))//2)-50),y=125)
+        self.__validerPara.place(x=(((largeurFrame-(self.__validerPara.winfo_reqwidth()))//2)-50),y=225)
+        self.__quitterPara.place(x=(((largeurFrame-(self.__quitterPara.winfo_reqwidth()))//2)-50),y=325)
         self.__cadreMeteoLoc.pack_forget()
         self.__cadreMeteoDomicile.pack_forget()
         self.__cadreCentral.pack_forget()
