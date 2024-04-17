@@ -49,7 +49,7 @@ class PArreraInfo :
         self.__cadreMeteoLoc = Frame(self.__screen,bg=self.__color,width=250,height=240)
         self.__cadreMeteoDomicile = Frame(self.__screen,bg=self.__color,width=250,height=240)
         self.__cadreCentral = Frame(self.__screen,bg=self.__color,width=550,height=315)
-        self.__cadrePara = Frame(self.__screen,bg="blue",height=750,width=600)
+        self.__cadrePara = Frame(self.__screen,bg=self.__color,height=750,width=600)
         #MeteoLoc
         self.__labelInfoLoc = Label(self.__cadreMeteoLoc,text="A votre localisation",bg=self.__color,fg=self.__textColor,font=("arial","15"))
         self.__labelTemperatureLoc = Label(self.__cadreMeteoLoc,text=self.__textTemperature,bg=self.__color,fg=self.__textColor,font=("arial","15"))
@@ -67,7 +67,7 @@ class PArreraInfo :
         self.__boutonActu4 = Button(self.__cadreCentral,bg=self.__color,fg=self.__textColor,font=("arial","13"))
         self.__labelInternet = Label(self.__screen,text="Internet n'est pas\nDisponible",bg=self.__color,fg=self.__textColor,font=("arial","25"))
         #Parametre
-        self.__entryVille = Entry(self.__cadrePara,font=("arial","25"))
+        self.__entryVille = Entry(self.__cadrePara,font=("arial","25"),border=4)
         self.__validerPara = Button(self.__cadrePara,text="Valider",font=("arial","15"),bg="green",fg="white",width=25,command=self.__validerSetting)
         self.__quitterPara = Button(self.__cadrePara,text="Retour",font=("arial","15"),bg="red",fg="white",width=25,command=self.disablePara)
         
