@@ -1,6 +1,7 @@
 from tkinter import*
 import webbrowser
 from ModuleInternet import TestInternet
+from librairy.travailJSON import*
 import requests
 import geocoder
 from time import*
@@ -12,6 +13,8 @@ class PArreraInfo :
         #Constante
         self.__color = "white"
         self.__textColor = "black"
+        #Fichier de config
+        self.__configFile = jsonWork("config/config.json")
         #Var api 
         self.__keyMeteo="ecffd157b2cc9eacbd0d35a45c3dc047"
         self.__urlMeteo="https://api.openweathermap.org/data/2.5/weather?"
@@ -65,7 +68,7 @@ class PArreraInfo :
         self.__labelInternet = Label(self.__screen,text="Internet n'est pas\nDisponible",bg=self.__color,fg=self.__textColor,font=("arial","25"))
         #Parametre
         self.__entryVille = Entry(self.__cadrePara,font=("arial","25"))
-        self.__validerPara = Button(self.__cadrePara,text="Valider",font=("arial","15"),bg="green",fg="white",width=25)
+        self.__validerPara = Button(self.__cadrePara,text="Valider",font=("arial","15"),bg="green",fg="white",width=25,command=self.__validerSetting)
         self.__quitterPara = Button(self.__cadrePara,text="Retour",font=("arial","15"),bg="red",fg="white",width=25,command=self.disablePara)
         
     def show(self):
@@ -140,8 +143,6 @@ class PArreraInfo :
         lat , long  = self.__geoloc()
         ReponseTemp = requests.get(self.__urlMeteo+"appid="+self.__keyMeteo+"&lat="+lat+"&lon="+long+"&lang=fr"+"&units=metric").json()
         if ReponseTemp['cod'] == 404 :
-            ville = input("Entrer votre ville : ")
-            ReponseTemp = requests.get(self.__urlMeteo+"appid="+self.__keyMeteo+"&q="+ville+"&lang=fr"+"&units=metric").json()
             return "none" ,"none","none"
         else :
             temperature = str(ReponseTemp['main']['temp']) 
@@ -151,7 +152,9 @@ class PArreraInfo :
         return temperature ,humiditer,icon
     
     def __meteoDomicile(self):
-        ville = self.__lecture("config/ville.txt")
+        ville = self.__configFile.lectureJSON("ville")
+        if (ville ==  ""):
+            ville = "Paris"
         ReponseTemp = requests.get(self.__urlMeteo+"appid="+self.__keyMeteo+"&q="+ville+"&lang=fr"+"&units=metric").json()
         if ReponseTemp['cod'] == 404 :
             ville = input("Entrer votre ville : ")
@@ -231,3 +234,9 @@ class PArreraInfo :
         self.__cadreMeteoDomicile.pack_forget()
         self.__cadreCentral.pack_forget()
         self.__cadrePara.pack()
+    
+    def __validerSetting(self):
+        ville = self.__entryVille.get()
+        self.__entryVille.delete(0,END)
+        self.__configFile.EcritureJSON("ville",ville)
+        self.disablePara()       
