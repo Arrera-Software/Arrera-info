@@ -6,6 +6,7 @@ import requests
 import geocoder
 from time import*
 from PIL import Image, ImageTk
+import threading as th 
 
 
 class PArreraInfo :
@@ -25,6 +26,8 @@ class PArreraInfo :
         self.__urlNew = "https://newsapi.org/v2/top-headlines?sources=google-news-fr"
         self.__keyNew = "3b43e18afcf945888748071d177b8513"
         self.__nombrePage = "4"
+        #Declaration du theard
+        self.__theardRefrech = th.Thread(target=self.__widget)
         #Fenetre tkinter
         self.__screen = Tk()
         self.__screen.title("Arrera Info")
@@ -94,7 +97,7 @@ class PArreraInfo :
         self.__boutonActu4.place(x="3",y="185")
         self.__boutonActualisation.place(x="545",y="690")
         self.__boutonPara.place(x="0",y="690")
-        self.__widget()
+        self.__theardRefrech.start()
         self.__screen.mainloop()
     
     def disablePara(self):
