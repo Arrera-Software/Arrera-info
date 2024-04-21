@@ -39,11 +39,15 @@ class PArreraInfo :
         self.__screen.configure(menu=menu)
         #Bouton Parametre et actualisation
         self.__boutonActualisation = Button(self.__screen,bg=self.__color,command=self.__widget)
-        iconActulisation = PhotoImage(file="image/iconActualisation.png",master=self.__boutonActualisation)
-        self.__boutonActualisation.image_names=iconActulisation
-        self.__boutonActualisation.configure(image=iconActulisation)
+        imageOrigineActualisation = Image.open("image/iconActualisation.png")    
+        imageRedimActualisation = imageOrigineActualisation.resize((50,50))
+        iconActualisation = ImageTk.PhotoImage(imageRedimActualisation)
+        self.__boutonActualisation.image_names=iconActualisation
+        self.__boutonActualisation.configure(image=iconActualisation)
         self.__boutonPara = Button(self.__screen,bg=self.__color,command=self.setting)
-        iconParametre = PhotoImage(file="image/iconParametre.png",master=self.__boutonPara)
+        imageOrigineParametre = Image.open("image/iconParametre.png")    
+        imageRedimParametre = imageOrigineParametre.resize((50,50))
+        iconParametre = ImageTk.PhotoImage(imageRedimParametre)
         self.__boutonPara.image_names = iconParametre
         self.__boutonPara.configure(image=iconParametre)
         #Definition des cadre
