@@ -10,21 +10,19 @@ import threading as th
 
 
 class PArreraInfo :
-    def __init__(self) -> None:
+    def __init__(self,keyMeteo:str,keyNew:str) -> None:
         #Constante
         self.__color = "white"
         self.__textColor = "black"
         #Fichier de config
         self.__configFile = jsonWork("config/config.json")
         #Var api 
-        self.__keyMeteo="ecffd157b2cc9eacbd0d35a45c3dc047"
+        self.__keyMeteo=keyMeteo
         self.__urlMeteo="https://api.openweathermap.org/data/2.5/weather?"
-        self.__urlGeoLoc = "http://api.ipstack.com/check"
-        self.__keyGeoLoc = "b8f00cfb49bfdaf40a317f98314ddc63"
         self.__textTemperature = "Temperature: "
         self.__textHumiditer = "Taux d'humidité : "
         self.__urlNew = "https://newsapi.org/v2/top-headlines?sources=google-news-fr"
-        self.__keyNew = "3b43e18afcf945888748071d177b8513"
+        self.__keyNew = keyNew
         self.__nombrePage = "4"
         #Fenetre tkinter
         self.__screen = Tk()
