@@ -26,8 +26,6 @@ class PArreraInfo :
         self.__urlNew = "https://newsapi.org/v2/top-headlines?sources=google-news-fr"
         self.__keyNew = "3b43e18afcf945888748071d177b8513"
         self.__nombrePage = "4"
-        #Declaration du theard
-        self.__theardRefrech = th.Thread(target=self.__widget)
         #Fenetre tkinter
         self.__screen = Tk()
         self.__screen.title("Arrera Info")
@@ -49,6 +47,7 @@ class PArreraInfo :
         self.__boutonPara.image_names = iconParametre
         self.__boutonPara.configure(image=iconParametre)
         #Definition des cadre
+        self.__cadreRefrech = Frame(self.__screen,bg=self.__color,width=600,height=750)
         self.__cadreMeteoLoc = Frame(self.__screen,bg=self.__color,width=250,height=240)
         self.__cadreMeteoDomicile = Frame(self.__screen,bg=self.__color,width=250,height=240)
         self.__cadreCentral = Frame(self.__screen,bg=self.__color,width=550,height=315)
@@ -73,13 +72,9 @@ class PArreraInfo :
         self.__entryVille = Entry(self.__cadrePara,font=("arial","25"),border=4)
         self.__validerPara = Button(self.__cadrePara,text="Valider",font=("arial","15"),bg="green",fg="white",width=25,command=self.__validerSetting)
         self.__quitterPara = Button(self.__cadrePara,text="Retour",font=("arial","15"),bg="red",fg="white",width=25,command=self.disablePara)
-        
+        self.__labelRefrech = Label(self.__cadreRefrech,text="Reception des information",font=("arial","15"),bg=self.__color,fg=self.__textColor)    
+    
     def show(self):
-        #affichage
-        self.__cadreMeteoLoc.pack(side="left",anchor="n")
-        self.__cadreMeteoDomicile.pack(side="right",anchor="n")
-        self.__cadreCentral.place(relx=.5, rely=.5, anchor="n")
-
         #Cadre meteo Loc
         self.__labelInfoLoc.place(x="0",y="0")
         self.__labelTemperatureLoc.place(x="0",y="35")
@@ -97,7 +92,7 @@ class PArreraInfo :
         self.__boutonActu4.place(x="3",y="185")
         self.__boutonActualisation.place(x="545",y="690")
         self.__boutonPara.place(x="0",y="690")
-        self.__theardRefrech.start()
+        self.__widget()
         self.__screen.mainloop()
     
     def disablePara(self):
@@ -105,12 +100,14 @@ class PArreraInfo :
         self.show()
 
     def __widget(self):
+        self.__cadreMeteoLoc.pack_forget()
+        self.__cadreMeteoDomicile.pack_forget()
+        self.__cadreCentral.place_forget()
+        self.__cadreRefrech.pack()
+        self.__labelRefrech.place(relx=0.5,rely=0.5,anchor="center")
         etatInternet = TestInternet()
         if etatInternet == True:
             self.__labelInternet.place_forget()
-            self.__cadreMeteoLoc.pack(side="left",anchor="n")
-            self.__cadreMeteoDomicile.pack(side="right",anchor="n")
-            self.__cadreCentral.place(relx=.5, rely=.5, anchor="n")
             temperatureLoc , humiditerLoc , descriptionLoc = self.__meteoLoc()
             temperatureDomicile ,humiditerDomicile , descriptionDomicile = self.__meteoDomicile()
             url1,titre1Part1,titre1Part2,url2,titre2Part1,titre2Part2,url3,titre3Part1,titre3Part2,url4,titre4Part1,titre4Part2 = self.__actu()
@@ -128,6 +125,10 @@ class PArreraInfo :
             self.__boutonActu2.config(text=titre2Part1+"\n"+titre2Part2,command=lambda :webbrowser.open(url2))
             self.__boutonActu3.config(text=titre3Part1+"\n"+titre3Part2,command=lambda :webbrowser.open(url3))
             self.__boutonActu4.config(text=titre4Part1+"\n"+titre4Part2,command=lambda :webbrowser.open(url4))
+            self.__cadreRefrech.pack_forget()
+            self.__cadreMeteoLoc.pack(side="left",anchor="n")
+            self.__cadreMeteoDomicile.pack(side="right",anchor="n")
+            self.__cadreCentral.place(relx=.5, rely=.5, anchor="n")
         else :
             self.__cadreMeteoLoc.pack_forget()
             self.__cadreMeteoDomicile.pack_forget()
